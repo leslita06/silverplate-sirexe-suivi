@@ -4,50 +4,102 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
-<title>Stand SIREXE 2026, tableau de bord, SN Silverplate Services</title>
+<title>Stand SIREXE 2026, pilotage du projet, SN Silverplate Services</title>
 <link rel="icon" href="assets/logo.png">
-<link rel="stylesheet" href="assets/style.css?v=20261118b">
+<link rel="stylesheet" href="assets/style.css?v=20261119a">
+<link rel="stylesheet" href="pilotage/app.css?v=20261119a">
 </head>
-<body data-page="tdb">
-<div class="note"><div class="wrap"><i class="ic" data-ic="info"></i><span>Illustration : montants alignés sur le devis du stand ; avancement, statuts et répartition des rôles proposés à titre d'exemple.</span></div></div>
+<body data-page="app">
+<div class="note"><div class="wrap"><i class="ic" data-ic="info"></i><span>Exemple illustratif : montants alignés sur le devis du stand ; tâches, statuts, éléments attendus et adresses à remplacer par le suivi réel. Vos changements restent enregistrés dans ce navigateur.</span></div></div>
 <header><div class="wrap mh">
   <div class="brand"><img class="logo" src="assets/logo.png" alt="SN Silverplate Services"><div><p class="bn">SN Silverplate Services</p><p class="bs">Stand 36 m², SIREXE 2026, Parc des Expositions d'Abidjan</p></div></div>
-  <div class="mh-right"><p class="eyebrow">Tableau de bord du projet</p><p class="arrete"><i class="ic" data-ic="calendar"></i><span id="arrete"></span></p></div>
+  <div class="mh-right"><p class="eyebrow">Pilotage du projet</p><p class="arrete"><i class="ic" data-ic="calendar"></i><span id="arrete"></span></p></div>
 </div></header>
-<nav class="navbar"><div class="wrap tabs"><a href="index.html" class="on"><i class="ic" data-ic="chart-column"></i>Tableau de bord</a><a href="qui-fait-quoi.html"><i class="ic" data-ic="users"></i>Qui fait quoi</a><a href="revue.html"><i class="ic" data-ic="file-text"></i>Revue de la semaine</a><a class="jj" href="index.html#s-ech"><i class="ic" data-ic="calendar-clock"></i>Ouverture mer. 18 nov.</a></div></nav>
+<nav class="navbar"><div class="wrap tabs" id="tabs">
+  <a class="tb" data-v="apercu"><i class="ic" data-ic="chart-column"></i>Vue d'ensemble</a>
+  <a class="tb" data-v="frise"><i class="ic" data-ic="gantt"></i>Rétroplanning</a>
+  <a class="tb" data-v="kanban"><i class="ic" data-ic="square-kanban"></i>Kanban</a>
+  <a class="tb" data-v="bloquants"><i class="ic" data-ic="triangle-alert"></i>Points bloquants <span class="pill retard" id="nb-bl" style="padding:3px 7px"></span></a>
+  <a class="tb" data-v="client"><i class="ic" data-ic="inbox"></i>Éléments du client</a>
+  <a href="revue.html"><i class="ic" data-ic="file-text"></i>Revue de la semaine</a>
+</div></nav>
 <main class="wrap">
-  <section class="intro">
-    <h1>Le stand SIREXE en un coup d'œil</h1>
-    <p class="sub1" id="phrase"></p>
-  </section>
-  <section class="kpis" id="kpis"></section>
-  <section class="alerts" id="alerts"></section>
 
-  <section class="block" id="s-lots">
-    <div class="bh"><span class="bx"><i class="ic" data-ic="circle-check"></i></span><h2>Avancement par lot</h2><p class="hint">Les 7 lots du devis, et qui suit chacun</p></div>
-    <div class="lots" id="lots"></div>
-  </section>
-
-  <section class="block" id="s-bud">
-    <div class="bh"><span class="bx"><i class="ic" data-ic="wallet"></i></span><h2>Budget engagé face au devis</h2><p class="hint">Hors taxes, en FCFA. Signé : commandes fermes aux prestataires</p></div>
-    <div class="grid2">
-      <div><p class="cap">Signé face au coût prévu, par lot (millions de FCFA HT)</p><div class="budget" id="budget"></div></div>
-      <div><p class="cap">Le détail, en FCFA HT</p><div class="tbl-wrap"><table class="tbl" id="t-bud"></table></div></div>
+<!-- vue d'ensemble -->
+<section class="view" id="v-apercu">
+  <section class="intro"><h1>Le stand SIREXE en un coup d'œil</h1><p class="sub1" id="phrase"></p></section>
+  <div class="hero">
+    <div class="big">
+      <div class="ring"><svg viewBox="0 0 168 168"><circle cx="84" cy="84" r="72" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="16"/><circle id="ring" cx="84" cy="84" r="72" fill="none" stroke="#fff" stroke-width="16" stroke-linecap="round" stroke-dasharray="452.4" stroke-dashoffset="452.4" style="transition:stroke-dashoffset .6s"/></svg><div class="n"><b id="pct">0 %</b><span>réalisé</span></div></div>
+      <div><h2>Réalisation de l'événement</h2><p id="pct-txt"></p><p class="jm"><b id="jm"></b><span>avant l'ouverture du mercredi 18 novembre</span></p></div>
     </div>
-    <div class="money" id="money"></div>
+    <div class="mini" id="mini"></div>
+  </div>
+  <section class="block">
+    <div class="bh"><span class="bx"><i class="ic" data-ic="square-kanban"></i></span><h2>Où en sont les tâches</h2><p class="hint">Se met à jour dès qu'une carte change de colonne</p></div>
+    <div class="cols3" id="cols3"></div>
   </section>
+  <section class="block">
+    <div class="bh"><span class="bx"><i class="ic" data-ic="wallet"></i></span><h2>Budget engagé face au devis</h2><p class="hint">Hors taxes, en FCFA</p></div>
+    <div class="grid2">
+      <div><p class="cap">Signé face au coût prévu, par lot (millions de FCFA HT)</p><div class="budget lotsb" id="budget"></div></div>
+      <div><p class="cap">L'argent du projet</p><div class="money" id="money" style="grid-template-columns:minmax(0,1fr);margin-top:0"></div></div>
+    </div>
+  </section>
+</section>
 
-  <section class="block" id="s-ech">
-    <div class="bh"><span class="bx"><i class="ic" data-ic="calendar-days"></i></span><h2>Échéances avant le jour J</h2><p class="hint">Ce qui reste à faire jusqu'à l'ouverture du mercredi 18 novembre</p></div>
-    <div class="tl-scale" id="scale"></div>
-    <div id="ech"></div>
+<!-- frise -->
+<section class="view" id="v-frise">
+  <section class="intro"><h1>Rétroplanning</h1><p class="sub1">De J-60 au bilan du 25 novembre. Chaque point est une tâche, chaque losange un jalon. <b>Rouge</b> : échéance passée, pas encore faite.</p></section>
+  <section class="block" style="margin-top:0">
+    <div class="gantt-wrap"><div class="gantt" id="gantt"></div></div>
+    <div class="g-leg"><span><i style="background:#7FB8A4"></i>Fait</span><span><i style="background:#4C63D2"></i>En cours</span><span><i style="background:#B7BFD6"></i>À faire</span><span><i style="background:#B91C1C"></i>En retard</span></div>
+    <div class="jal" id="jal"></div>
   </section>
+</section>
+
+<!-- kanban -->
+<section class="view" id="v-kanban">
+  <section class="intro"><h1>Kanban</h1><p class="sub1">Faites glisser une carte par sa poignée, ou utilisez les flèches. Le pourcentage de réalisation se recalcule aussitôt : <b id="kb-pct"></b>.</p></section>
+  <div class="toolbar">
+    <span class="selp" id="kb-who"></span><span class="sp"></span>
+    <button class="btn" data-reset><i class="ic" data-ic="rotate-ccw"></i>Remettre l'exemple à zéro</button>
+    <button class="btn" id="kb-add"><i class="ic" data-ic="plus"></i>Ajouter une tâche</button>
+  </div>
+  <form class="addf" id="addf">
+    <input class="in t" id="af-t" placeholder="Nouvelle tâche, par exemple : Récupérer les badges" required>
+    <select class="in" id="af-q"><option value="J">Jamal</option><option value="A">Alice</option><option value="R">Arnaud</option></select>
+    <input class="in" id="af-d" type="date" value="2026-11-12">
+    <button class="btn pri" type="submit"><i class="ic" data-ic="check"></i>Ajouter</button>
+  </form>
+  <div class="kb" id="kb"></div>
+</section>
+
+<!-- bloquants -->
+<section class="view" id="v-bloquants">
+  <section class="intro"><h1>Points bloquants</h1><p class="sub1">Ce qui empêche d'avancer, alertes rouges en tête. Un élément du client non reçu se relance d'un clic.</p></section>
+  <div class="bl-sum" id="bl-sum"></div>
+  <div id="bl"></div>
+</section>
+
+<!-- éléments client -->
+<section class="view" id="v-client">
+  <section class="intro"><h1>Éléments attendus du client</h1><p class="sub1">Tout ce que l'exposant doit nous remettre. Cochez « Reçu » à réception ; sinon « Relancer » ouvre un e-mail prêt dans votre messagerie. <b>Rien ne part sans que vous cliquiez sur Envoyer.</b></p></section>
+  <div class="cl-top">
+    <div><label for="cl-def">Adresse e-mail du contact chez l'exposant</label>
+      <div class="row"><input class="in" id="cl-def" type="email" placeholder="prenom.nom@exposant.ci" autocomplete="email"><button class="btn" id="cl-apply"><i class="ic" data-ic="mail"></i>Mettre pour tous les éléments sans adresse</button></div></div>
+    <div class="stat"><b id="cl-stat"></b><span>éléments reçus</span></div>
+  </div>
+  <section class="block" style="margin-top:0;padding-top:12px;padding-bottom:12px"><div id="cl"></div></section>
+</section>
+
 </main>
 <footer class="foot"><div class="wrap">
   <p>Projet : stand de 36 m² au SIREXE 2026. Montage du 15 au 17 novembre, salon du 18 au 22, démontage le 23. Devis : 10 675 600 FCFA HT, soit 12 597 208 FCFA TTC (TVA 18 %).</p>
-  <p class="small">Avancement, commandes signées, statuts et rôles d'Alice, Jamal et Arnaud : illustration, à remplacer par le suivi réel de l'équipe.</p>
+  <p class="small">Date du jour fixée au vendredi 6 novembre pour l'exemple. Rôles d'Alice, Jamal et Arnaud proposés à titre d'exemple. <a href="#" id="reset" style="color:inherit">Remettre l'exemple à zéro</a></p>
 </div></footer>
-<script src="assets/data.js?v=20261118b"></script>
-<script src="assets/app.js?v=20261118b"></script>
+<div class="toast" id="toast"></div>
+<script src="pilotage/data.js?v=20261119a"></script>
+<script src="pilotage/app.js?v=20261119a"></script>
 </body>
 </html>
